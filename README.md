@@ -10,7 +10,7 @@
 
 ## Скачивание
 
-Установщик для Windows распространяется через GitHub Releases — кнопка «Скачать» на лендинге ведёт на последнюю версию (2.0.9):
+Установщик для Windows распространяется через GitHub Releases — кнопка «Скачать» на лендинге ведёт на последнюю версию (2.0.10):
 
 - Прямая ссылка: https://github.com/KonstantinLarionov/ATS/releases/latest/download/AgentTaskStudio-Setup.exe
 - Страница файла: https://github.com/KonstantinLarionov/ATS/releases
