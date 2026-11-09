@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Task Studio — локальная студия управления AI-агентами</title>
+<meta name="description" content="Agent Task Studio (ATS) — локальное приложение для управления задачами и AI-агентами: доска задач, итерации, мульти-чат, встроенная безопасность. Windows и Android.">
+<link rel="icon" type="image/png" href="assets/icon.png">
+<style>
+  :root {
+    --bg: #050b13;
+    --surface: #0a1420;
+    --surface-2: #0f1b2b;
+    --line: rgba(255,255,255,.09);
+    --text: #e8f0f7;
+    --muted: #8ba3b8;
+    --mint: #52d7c6;
+    --mint-2: #2ea89a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+  header.site {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(5,11,19,.82); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  header.site .wrap { display: flex; align-items: center; gap: 16px; height: 64px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; text-decoration: none; color: var(--text); }
+  .logo img { width: 30px; height: 30px; border-radius: 8px; }
+  .logo span em { color: var(--mint); font-style: normal; }
+  nav.top { margin-left: auto; display: flex; gap: 22px; }
+  nav.top a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color .15s; }
+  nav.top a:hover { color: var(--mint); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 12px 26px; border-radius: 10px; font-weight: 600; font-size: 15px;
+    text-decoration: none; transition: transform .15s, box-shadow .15s, background .15s;
+    cursor: pointer; border: 0;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--mint), var(--mint-2)); color: #04241f;
+    box-shadow: 0 6px 24px rgba(82,215,198,.25);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(82,215,198,.35); }
+  .btn-ghost { border: 1px solid var(--line); color: var(--text); background: var(--surface-2); }
+  .btn-ghost:hover { border-color: var(--mint); color: var(--mint); }
+  .btn-sm { padding: 8px 18px; font-size: 14px; }
+
+  .hero { padding: 96px 0 72px; position: relative; }
+  .hero::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(600px 300px at 20% 0%, rgba(82,215,198,.13), transparent),
+      radial-gradient(500px 260px at 85% 15%, rgba(122,108,255,.10), transparent);
+  }
+  .hero .wrap { position: relative; }
+  .eyebrow {
+    display: inline-block; padding: 6px 14px; border: 1px solid rgba(82,215,198,.35);
+    border-radius: 999px; color: var(--mint); font-size: 12px; letter-spacing: 2.5px;
+    text-transform: uppercase; margin-bottom: 22px;
+  }
+  .hero h1 { font-size: clamp(34px, 5.4vw, 58px); line-height: 1.12; letter-spacing: -.5px; max-width: 820px; }
+  .hero h1 em { font-style: normal; color: var(--mint); }
+  .hero p.sub { margin: 22px 0 34px; color: var(--muted); font-size: 18px; max-width: 640px; }
+  .hero .cta { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .hero .note { color: var(--muted); font-size: 13px; margin-top: 16px; }
+  .platforms { display: flex; gap: 10px; margin-top: 26px; flex-wrap: wrap; }
+  .platforms span {
+    padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px;
+    color: var(--muted); font-size: 13px; background: var(--surface);
+  }
+  .platforms span b { color: var(--text); font-weight: 600; }
+
+  section { padding: 76px 0; }
+  .kicker { color: var(--mint); font-size: 12px; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 700; }
+  h2 { font-size: clamp(26px, 3.4vw, 38px); margin: 12px 0 14px; letter-spacing: -.3px; }
+  .lead { color: var(--muted); max-width: 640px; font-size: 16px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-top: 44px; }
+  .card {
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    border: 1px solid var(--line); border-radius: 16px; padding: 26px;
+    transition: transform .18s, border-color .18s;
+  }
+  .card:hover { transform: translateY(-4px); border-color: rgba(82,215,198,.4); }
+  .card .ico { font-size: 26px; width: 48px; height: 48px; display: grid; place-items: center;
+    border-radius: 12px; background: rgba(82,215,198,.1); border: 1px solid rgba(82,215,198,.25); margin-bottom: 16px; }
+  .card h3 { font-size: 17px; margin-bottom: 8px; }
+  .card p { color: var(--muted); font-size: 14.5px; }
+
+  .steps { margin-top: 44px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; counter-reset: step; }
+  .step { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 26px 26px 26px 74px; }
+  .step::before {
+    counter-increment: step; content: counter(step);
+    position: absolute; left: 20px; top: 24px;
+    width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(82,215,198,.12); border: 1px solid rgba(82,215,198,.4); color: var(--mint); font-weight: 700;
+  }
+  .step h3 { font-size: 16px; margin-bottom: 6px; }
+  .step p { color: var(--muted); font-size: 14.5px; }
+
+  .showcase { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; }
+  @media (max-width: 860px) { .showcase { grid-template-columns: 1fr; } }
+  .phone {
+    width: 280px; border-radius: 34px; border: 1px solid var(--line);
+    box-shadow: 0 30px 70px rgba(0,0,0,.5); overflow: hidden; background: #fff;
+    margin: 0 auto;
+  }
+  .phone img { display: block; width: 100%; }
+  .checks { margin-top: 26px; display: grid; gap: 12px; }
+  .checks div { display: flex; gap: 10px; color: var(--muted); font-size: 15px; }
+  .checks div b { color: var(--mint); }
+
+  .download {
+    background:
+      radial-gradient(700px 320px at 50% 0%, rgba(82,215,198,.12), transparent),
+      var(--surface);
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    text-align: center;
+  }
+  .download .big { font-size: clamp(24px, 3vw, 34px); font-weight: 700; margin: 10px 0 8px; }
+  .download .ver { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+  .download .ver b { color: var(--text); }
+  .hash {
+    margin: 22px auto 0; max-width: 560px; text-align: left;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px 16px; font-family: Consolas, monospace; font-size: 11.5px; color: var(--muted);
+    word-break: break-all;
+  }
+  .hash b { color: var(--mint); font-weight: 600; }
+
+  footer.site { padding: 36px 0; color: var(--muted); font-size: 13px; }
+  footer.site .wrap { display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
+  footer.site a { color: var(--muted); text-decoration: none; }
+  footer.site a:hover { color: var(--mint); }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="#"><img src="assets/icon.png" alt="ATS"><span>Agent&nbsp;Task&nbsp;<em>Studio</em></span></a>
+    <nav class="top">
+      <a href="#features">Возможности</a>
+      <a href="#how">Как работает</a>
+      <a href="#download" class="btn btn-primary btn-sm">Скачать</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Локально · Приватно · С агентами</span>
+    <h1>Управляйте задачами и <em>AI-агентами</em> как единым процессом</h1>
+    <p class="sub">Agent Task Studio — настольная студия, где доска задач, итерации и чат с агентом работают вместе. Агент выполняет, вы контролируете каждый шаг. Данные остаются на вашем компьютере.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="#download">⬇ Скачать для Windows</a>
+      <a class="btn btn-ghost" href="#features">Посмотреть возможности</a>
+    </div>
+    <p class="note">Бесплатно для локального использования · Установка за минуту</p>
+    <div class="platforms">
+      <span><b>Windows</b> 10/11 x64</span>
+      <span><b>Android</b> — мобильная доска</span>
+      <span><b>Автообновления</b> встроены</span>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <span class="kicker">Возможности</span>
+    <h2>Всё, что нужно для работы с агентом</h2>
+    <p class="lead">ATS соединяет классический таск-трекер с исполняющим AI-агентом: задачи превращаются в итерации, итерации — в результат, а безопасность проверяется на каждом шаге.</p>
+    <div class="grid">
+      <div class="card"><div class="ico">🗂️</div><h3>Доска задач и итерации</h3><p>Канбан-доска с колонками, агентами и статусами. Каждая задача разбирается на итерации с проверяемым результатом.</p></div>
+      <div class="card"><div class="ico">💬</div><h3>Мульти-чат с агентом</h3><p>Несколько параллельных чатов с агентом по проекту, переключение во время генерации, полный контекст сессии.</p></div>
+      <div class="card"><div class="ico">🛡️</div><h3>Встроенная безопасность</h3><p>Локальные ML-модели (ONNX) проверяют промпты и ответы: защита от инъекций, утечек PII и опасных команд.</p></div>
+      <div class="card"><div class="ico">⚡</div><h3>Навыки (skills)</h3><p>Расширяем агента своими сценариями: скиллы проекта и глобальные навыки доступны агенту и в один клик из интерфейса.</p></div>
+      <div class="card"><div class="ico">🎨</div><h3>Clear Space</h3><p>Доска рисования для схем: фигуры, связи, стикеры, маркер — и передача схемы прямо в задачу.</p></div>
+      <div class="card"><div class="ico">📱</div><h3>Мобильная доска</h3><p>Android-приложение синхронизирует доску и результаты: задачи под контролем даже вне рабочего места.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how" style="background: var(--surface);">
+  <div class="wrap">
+    <span class="kicker">Как работает</span>
+    <h2>Три шага до первого результата</h2>
+    <div class="steps">
+      <div class="step"><h3>Откройте проект</h3><p>Укажите папку на компьютере — ATS работает с вашими файлами локально, ничего не отправляя в облако без вашего решения.</p></div>
+      <div class="step"><h3>Поставьте задачу</h3><p>Опишите задачу на доске и назначьте агента. Задача превратится в итерации с понятными шагами.</p></div>
+      <div class="step"><h3>Контролируйте выполнение</h3><p>Следите за работой агента в чате в реальном времени, сверяйте результаты итераций и принимайте готовое.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap showcase">
+    <div>
+      <span class="kicker">Везде с вами</span>
+      <h2>Доска всегда под рукой</h2>
+      <p class="lead">Мобильное приложение Agent Task Studio держит проекты, задачи и результаты в кармане — а настольная версия делает тяжёлую работу с агентом.</p>
+      <div class="checks">
+        <div><b>✓</b> Единая доска задач на всех устройствах</div>
+        <div><b>✓</b> Автообновления без ручной переустановки</div>
+        <div><b>✓</b> Данные и ключи — только на ваших устройствах</div>
+      </div>
+    </div>
+    <div class="phone"><img src="assets/app-mobile.png" alt="Agent Task Studio на Android" loading="lazy"></div>
+  </div>
+</section>
+
+<section id="download" class="download">
+  <div class="wrap">
+    <span class="kicker">Скачать</span>
+    <div class="big">Agent Task Studio для Windows</div>
+    <p class="ver">Версия <b>2.0.7</b> · Windows 10/11 x64 · установщик ~375 МБ (агент и модели включены)</p>
+    <a class="btn btn-primary" style="font-size:17px; padding:15px 40px;" href="https://drive.google.com/uc?export=download&id=1i6zvU_o_xzO_K-noEAVy3cfRXuUNaNJD" rel="nofollow">⬇ Скачать установщик</a>
+    <div class="hash"><b>SHA-256:</b> 89f1ba583478262a7bb08e17794435ac2fcadb9ac5ac72f7fa349711af2c128b</div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© 2026 Agent Task Studio</span>
+    <span>Скачивание через Google Drive · <a href="https://drive.google.com/file/d/1i6zvU_o_xzO_K-noEAVy3cfRXuUNaNJD/view" rel="nofollow">прямая страница файла</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
