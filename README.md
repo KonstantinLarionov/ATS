@@ -10,11 +10,11 @@
 
 ## Скачивание
 
-Установщик для Windows распространяется через Google Drive — кнопка «Скачать» на лендинге ведёт на последнюю версию (2.0.7):
+Установщик для Windows распространяется через Google Drive — кнопка «Скачать» на лендинге ведёт на последнюю версию (2.0.8):
 
-- Прямая ссылка: https://drive.google.com/uc?export=download&id=1i6zvU_o_xzO_K-noEAVy3cfRXuUNaNJD
-- Страница файла: https://drive.google.com/file/d/1i6zvU_o_xzO_K-noEAVy3cfRXuUNaNJD/view
-- SHA-256: `89f1ba583478262a7bb08e17794435ac2fcadb9ac5ac72f7fa349711af2c128b`
+- Прямая ссылка: https://drive.google.com/uc?export=download&id=1-BZ3MbprumbHXSEjYoQ2En9gus0ZZWS7
+- Страница файла: https://drive.google.com/file/d/1-BZ3MbprumbHXSEjYoQ2En9gus0ZZWS7/view
+- SHA-256: `e41b05a606bdc74d76898c2d4d9fc69f62e90a5277ab31d20c3674f4e87a346e`
 
 ## Публикация
 
