@@ -121,6 +121,18 @@
   .checks div { display: flex; gap: 10px; color: var(--muted); font-size: 15px; }
   .checks div b { color: var(--mint); }
 
+  .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 44px; }
+  .shot {
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+    transition: transform .18s, border-color .18s;
+  }
+  .shot:hover { transform: translateY(-4px); border-color: rgba(82,215,198,.4); }
+  .shot img { display: block; width: 100%; height: auto; }
+  .shot figcaption { padding: 14px 18px 18px; }
+  .shot figcaption b { display: block; font-size: 15px; margin-bottom: 4px; }
+  .shot figcaption span { color: var(--muted); font-size: 13.5px; }
+
   .download {
     background:
       radial-gradient(700px 320px at 50% 0%, rgba(82,215,198,.12), transparent),
@@ -152,6 +164,7 @@
     <a class="logo" href="#"><img src="assets/icon.png" alt="ATS"><span>Agent&nbsp;Task&nbsp;<em>Studio</em></span></a>
     <nav class="top">
       <a href="#features">Возможности</a>
+      <a href="#screens">Интерфейс</a>
       <a href="#how">Как работает</a>
       <a href="#download">Скачать</a>
     </nav>
@@ -200,6 +213,28 @@
       <div class="step"><h3>Откройте проект</h3><p>Укажите папку на компьютере — ATS работает с вашими файлами локально, ничего не отправляя в облако без вашего решения.</p></div>
       <div class="step"><h3>Поставьте задачу</h3><p>Опишите задачу на доске и назначьте агента. Задача превратится в итерации с понятными шагами.</p></div>
       <div class="step"><h3>Контролируйте выполнение</h3><p>Следите за работой агента в чате в реальном времени, сверяйте результаты итераций и принимайте готовое.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="screens" style="background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="wrap">
+    <span class="kicker">Интерфейс</span>
+    <h2>Как это выглядит</h2>
+    <p class="lead">Реальные экраны Agent Task Studio: панель проекта, доска задач и визуальное пространство Clear Space.</p>
+    <div class="gallery">
+      <figure class="shot">
+        <img src="assets/image2.png" alt="Доска задач ATS: колонка агента, файловое дерево проекта" loading="lazy">
+        <figcaption><b>Доска задач и агент</b><span>Задачи назначаются агенту, колонки показывают статус выполнения, рядом — файловое дерево проекта.</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="assets/image.png" alt="Главная ATS: задачи в процессе, результаты агента и навыки" loading="lazy">
+        <figcaption><b>Главная и результаты</b><span>В процессе и завершённые результаты агента в реальном времени, внизу — доступные навыки.</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="assets/image1.png" alt="Clear Space: схемы из задач, итераций и связей" loading="lazy">
+        <figcaption><b>Clear Space</b><span>Визуальное пространство: задачи и итерации как карточки, связи, рисунки маркером — схему можно передать прямо в задачу.</span></figcaption>
+      </figure>
     </div>
   </div>
 </section>
